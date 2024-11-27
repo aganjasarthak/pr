@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UHPC - Neural network</title>
+    <style>
+        p {
+    text-align: justify;
+}
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: inline-block;
+            width: 80px;
+        }
+        .form-group input {
+            padding: 5px;
+            width: 150px;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .success {
+            color: green;
+            margin-top: 10px;
+        }
+        .loading {
+            display: none;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ccc;
+        }
+        body {
+            background-color: #F0F8FF; /* Frost white background */
+            color: #000000; /* Dark text color for readability */
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            font-family: "Garamond", serif;
+        }
+        .form-group input {
+    padding: 5px;
+    width: 150px;
+    margin-left: 40px; /* Increase the space between the label and input */
+}
+h2 {
+    color: navy;
+}
+h3 {
+    color: navy;
+}
+h4 {
+    color: navy;
+}
+h5 {
+    color: navy;
+}
+h6 {
+    color: navy;
+}
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Neural Network Calculator-UHPC strength prediction</h2>
+        <p>Developed/Trained by: Sarthak Aaganja (<a href="mailto:sarthak.aaganja12@gmail.com">sarthak.aaganja12@gmail.com</a>)</p>
+
+        <p>Civil Engineer , Khwopa College of Engineering</p>
+        <p>Literatures Reviewed by : 1. Nischal Prajapati(<a href="prajapati.nischal@khwopa.edu.np">prajapati.nischal@khwopa.edu.np</a>) </p>
+        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Teaching Assistant, Khwopa College of Engineering</p>
+
+        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;2. Asmita Adhikari (<a href="pas076bce019@wrc.edu.np">pas076bce019@wrc.edu.np</a>) </p>
+        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Civil Engineer, Institute of Engineering</p>
+
+        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;3. Jonisha Baniya (<a href="jonishabaniya8848@gmail.com">jonishabaniya8848@gmail.com</a>) </p>
+        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Civil Engineer,Oxford College of Engineering and Management</p>
+
+        
+
+        <img 
+        src="https://static.vecteezy.com/system/resources/thumbnails/017/094/580/small/machine-learning-icon-illustration-machine-learning-solving-robot-big-data-artificial-intelligence-internet-of-things-infographic-template-concept-banner-icon-set-icons-vector.jpg" 
+        alt="Neural Network Structure" 
+        style="display: block; margin: 20px 0; width: 100%; max-width: 550px; height: auto; mix-blend-mode: multiply;"
+    >
+    <p><strong>Ultra-High-Performance Concrete (UHPC)</strong></p>
+    <p><strong>Published:</strong> 18 December 2023 | <strong>Version 1</strong> | <strong>DOI:</strong> 10.17632/85r7bh4zsz.1</p>
+    <p><strong>Contributors:</strong> Abul Kashem, Pobithra Das</p>
+    
+    <h3>Description</h3>
+    <p>The dataset for Ultra-High-Performance Concrete (UHPC) includes 810 samples of mixture proportions with 14 data attributes. Among these attributes, compressive strength is considered an output parameter, while other essential variables like cement, curing age, water, nano-silica, quartz powder, limestone powder, aggregate, slag, superplasticizer, fiber, temperature, fly ash, and silica fume are considered inputs.</p>
+    
+    <h3>Dataset Information</h3>
+    <ul>
+        <li><strong>Source:</strong> Mendeley Data</li>
+        <li><strong>License:</strong> CC BY 4.0</li>
+       
+        <li><strong>Institution:</strong> Shahjalal University of Science and Technology</li>
+    </ul>
+    
+    
+    
+    <p><strong>References:</strong><br>
+    Kashem, Abul; Karim, Rezaul; Malo, Somir Chandra; Das, Pobithra (2023), “Ultra-High-Performance Concrete (UHPC)”, Mendeley Data, V1, <a href="https://doi.org/10.17632/85r7bh4zsz.1" target="_blank">doi: 10.17632/85r7bh4zsz.1</a></p>
+    
+
+
+        <form id="inputForm">
+            <div id="inputFields"></div>
+            <button type="submit" id="calculateBtn">Calculate</button>
+        </form>
+
+        <div id="loading" class="loading">Processing...</div>
+        <div id="error" class="error"></div>
+        <div id="success" class="success"></div>
+
+        <h3>Result:</h3>
+        <p id="result"></p>
+
+        <h3>Predicted Strength (MPa):</h3>
+        <div id="output"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.4.4/math.js"></script>
+    <script>
+        // Configuration
+        const CONFIG = {
+            NUM_VARIABLES: 13,
+            NUM_LAYERS: 11,
+            SUBTRACT_ARRAY: [
+  737.9146, 25.1946, 136.9872, 41.9295, 33.2710, 26.2649, 3.6386, 1150.1, 
+  179.8911, 56.0444, 30.0309, 23.9210, 37.0938
+],
+            DIVIDE_ARRAY: [
+  173.4572, 74.3655, 104.1446, 133.1315, 79.6739, 67.4617, 7.7760, 312.1520, 
+  25.5682, 75.2306, 13.9935, 16.2115, 53.1159
+]
+
+        };
+
+        // State management
+        let X_poly = [];
+
+        // DOM Elements
+        const elements = {
+            form: document.getElementById('inputForm'),
+            result: document.getElementById('result'),
+            output: document.getElementById('output'),
+            error: document.getElementById('error'),
+            success: document.getElementById('success'),
+            loading: document.getElementById('loading'),
+            calculateBtn: document.getElementById('calculateBtn')
+        };
+
+        // Initialize form fields
+        function initializeForm() {
+    const inputFields = document.getElementById('inputFields');
+    
+    const labels = [
+    'Cement',
+    'Slag',
+    'Silica Fume',
+    'Limestone Powder',
+    'Quartz Powder',
+    'Fly Ash',
+    'Nano-Silica',
+    'Aggregate',
+    'Water',
+    'Fiber',
+    'Superplasticizer',
+    'Temperature',
+    'Age'
+];
+
+
+// Example: assuming you're rendering labels into HTML elements
+
+const units = [
+    ' kg/m³',     // Cement
+    ' kg/m³',     // Slag
+    ' kg/m³',     // Silica Fume
+    ' kg/m³',     // Limestone Powder
+    ' kg/m³',     // Quartz Powder
+    ' kg/m³',     // Fly Ash
+    ' kg/m³',     // Nano-Silica
+    ' kg/m³',     // Aggregate
+    ' kg/m³',     // Water
+    ' kg/m³',     // Fiber
+    ' kg/m³',     // Superplasticizer
+    ' °C',        // Temperature
+    ' days'       // Age
+];
+
+
+
+const placeholders = [
+    '270-1251.2',
+    '0-375',
+    '0-433.7',
+    '0-1058.2',
+    '0-397',
+    '0-356',
+    '0-47.5',
+    '407.8-1992',
+    '90-272.6',
+    '0-234',
+    '1.1-57',
+    '20-210',
+    '1-365'
+];
+
+
+
+    for (let i = 0; i < labels.length; i++) {
+        const formGroup = document.createElement('div');
+        formGroup.className = 'form-group';
+        
+        // Create label for the input field
+        const label = document.createElement('label');
+        label.htmlFor = `var${i + 1}`;
+        label.textContent = labels[i] + ':';
+        
+        // Create input field
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.id = `var${i + 1}`;
+        input.name = `var${i + 1}`;
+        input.required = true;
+        input.step = 'any';
+        input.placeholder = placeholders[i];
+
+        // Create unit span
+        const unit = document.createElement('span');
+        unit.className = 'unit';
+        unit.textContent = units[i];
+        
+        // Create a wrapper div for the input and the unit
+        const inputWrapper = document.createElement('div');
+        inputWrapper.className = 'input-wrapper';
+        inputWrapper.appendChild(input);
+        inputWrapper.appendChild(unit);  // Add unit next to input
+        
+        formGroup.appendChild(label);
+        formGroup.appendChild(inputWrapper);  // Append the wrapper instead of just the input
+        inputFields.appendChild(formGroup);
+    }
+} //ini form end 
+
+
+        // Validate input values
+        function validateInputs(values) {
+            return values.every(value => !isNaN(value) && isFinite(value));
+        }
+
+        // Calculate normalized row vector
+        function calculateNormalizedVector(inputValues) {
+            return inputValues.map((value, index) => {
+                return ((value - CONFIG.SUBTRACT_ARRAY[index]) / CONFIG.DIVIDE_ARRAY[index]);
+            });
+        }
+
+        // Generate polynomial features
+        function generatePolynomialFeatures(resultArray, degree = 2) {
+            const X_poly = [[]]; // Initialize as a 2D matrix with one row
+
+// Add the bias term (1) as the first element
+X_poly[0].push(1);
+
+// Add polynomial terms up to the specified degree (which is 2 in this case)
+for (let j = 0; j < resultArray.length; j++) {
+    for (let d = 1; d <= degree; d++) {
+        X_poly[0].push(Math.pow(resultArray[j], d));
+    }
+}
+
+// Add interaction terms between different elements
+for (let j = 0; j < resultArray.length; j++) {
+    for (let k = j + 1; k < resultArray.length; k++) {
+        X_poly[0].push(resultArray[j] * resultArray[k]);
+    }
+}
+
+// Ensure X_poly has the expected number of elements for verification (optional)
+const expectedElements = 1 + resultArray.length * degree + (resultArray.length * (resultArray.length - 1)) / 2;
+if (X_poly[0].length !== expectedElements) {
+    throw new Error(`X_poly must have ${expectedElements} elements, but has ${X_poly[0].length}. Adjust the logic or input.`);
+}
+
+return X_poly;
+}
+
+
+        // Process neural network
+        async function processNeuralNetwork(X_poly) {
+            try {
+                const response = await fetch('datanew.json');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch network data');
+                }
+
+                const data = await response.json();
+                const { W, b } = data;
+             
+
+                // Validate network structure
+                if (!Array.isArray(W) || !Array.isArray(b) || 
+                    W.length !== CONFIG.NUM_LAYERS || b.length !== CONFIG.NUM_LAYERS) {
+                    throw new Error('Invalid xx neural network structure');
+                }
+   
+
+                // Initialize first activation with input
+                
+   
+
+// Forward propagation through all layers
+
+let a = X_poly;  // Initial input
+console.log('Initial X_poly dimensions:', [X_poly.length, X_poly[0].length]);
+
+for (let i = 0; i < 11; i++) {
+    console.log(`\nLayer ${i}:`);
+    console.log('a dim:', [a.length, a[0].length]);
+    console.log('W dim:', [W[i].length, W[i][0].length]);
+    console.log(' b dim:', b[i].length);
+
+    // Matrix multiplication
+   const multiplication = math.multiply(a, W[i]);
+    console.log('multiplyyyyy:', 
+                [multiplication.length, multiplication[0].length]);
+
+    // Add bias
+    let bRepeated = Array(a.length).fill(b[i]);
+
+    const z = math.add(multiplication, bRepeated);
+    console.log('After bias addition dimensions:', 
+                [z.length, z[0].length]);
+
+    if (i === 10) {
+        a = z;
+    } else {
+        a = math.map(z, value => Math.max(0, value));
+    }
+}
+const y_pred_finalt = a*12.8811+44.2186;
+console.log('a');
+console.log(y_pred_finalt);
+
+                return a;
+            } catch (error) {
+                throw new Error(`Neural network processing failed: ${error.message}`);
+            }
+        }
+
+        // Main calculation function
+        async function handleCalculation(event) {
+            event.preventDefault();
+            
+            elements.error.textContent = '';
+            elements.success.textContent = '';
+            elements.loading.style.display = 'block';
+            elements.calculateBtn.disabled = true;
+
+            try {
+                // Get and validate inputs
+                const inputValues = Array.from({ length: CONFIG.NUM_VARIABLES }, 
+                    (_, i) => parseFloat(document.getElementById(`var${i + 1}`).value));
+
+                if (!validateInputs(inputValues)) {
+                    throw new Error('Please enter valid numbers for all fields');
+                }
+
+                // Calculate normalized vector
+                const normalizedVector = calculateNormalizedVector(inputValues);
+                console.log(normalizedVector);
+                console.log('print');
+
+                elements.result.textContent = `[ ${normalizedVector.map(v => v.toFixed(4)).join(', ')} ]`;
+
+                // Generate polynomial features
+                X_poly = generatePolynomialFeatures(normalizedVector);
+                console.log(X_poly);
+                console.log('bigreko');
+
+                  
+                                        let totalElements = X_poly.reduce((sum, row) => sum + row.length, 0);
+                                        console.log(totalElements); // This will give you the total number of elements in X_poly
+                                        // Define a new matrix of size 1x45
+                                            // Define a new 2D matrix of size 1x45
+                                            
+                                    X_mini=[
+    [1, 0.669746358302946, 0.448560184460057, -0.944428713726893, 0.891945595311833, -0.858467068030285, 0.736965706892514, 0.259285679642027, 0.0672290636674281, -1.16383817335812, 
+     1.35451929376557, 0.944842031522081, 0.892726464530773, -0.0720586453649226, 0.00519244837182768, -0.746956915067188, 0.557944632966691, -0.632527691695321, -0.574955192536291, 0.173655639700352,
+     -0.779476378260555, 0.632804509783471, -0.0482610153174003, -0.500271673675452, 0.810760948836739, -0.244876840912123, 1.09916218905087, -0.892335944505503, 0.0680542537548962, 0.705447558506312, 
+     -0.222588217184531, 0.999116744344471, -0.811115768552539, 0.0618599740126592, 0.641237912822676, -0.301766571772497, 0.244984008297557, -0.0186837748375278, -0.193675231386508, -1.09964322407864, 
+     0.0838646021961724, 0.869336971609016, -0.0680840368753227, -0.705756289091549, 0.0538247034457031]
+];
+ console.log(X_mini);
+ console.log('find mini');
+
+
+      
+
+                        let new_mat = new Array(1); // Create an array with 1 row
+                        new_mat[0] = new Array(45);
+                        // Initialize the first row with 45 elements
+                        for (let i = 0; i < 45; i++) {
+                                new_mat[0][i] = i+1; // Set values 1, 2, ..., 45 in the matrix
+                            }
+
+                        // Flatten the matrix (since it's a 1x45 matrix, just access the first row)
+                        let flat_mat = new_mat[0];
+
+                        // Output the matrix as [1, 45]
+                        console.log(flat_mat); // This will print [1, 2, 3, 4, ..., 45]
+
+
+
+                console.log(X_poly);
+              //  elements.output.textContent = `X_poly: [ ${X_poly[0].map(v => v.toFixed(4)).join(', ')} ]`;
+
+                // Process neural network
+                const prediction = await processNeuralNetwork(X_poly);
+                let pre=prediction*40.239+123.13;
+                pre = pre.toFixed(2); 
+                
+               //elements.output.textContent = `The predicted strength of the concrete is ${pre} Mpa <br></br>Thank you for using   -Sar.Aganja:dev `;
+                elements.output.innerHTML = `The predicted strength of UHPC is ${pre} Mpa<br><br>However, please note that this output is based on machine learning-trained values. Users are strongly advised to validate the generated prediction through independent testing or verification.<br><br>Thank you for using -`;
+
+                elements.success.textContent = 'Calculation completed successfully!';
+
+            } catch (error) {
+                elements.error.textContent = error.message;
+            } finally {
+                elements.loading.style.display = 'none';
+                elements.calculateBtn.disabled = false;
+            }
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeForm();
+            elements.form.addEventListener('submit', handleCalculation);
+        });
+    </script>
+</body>
+</html>
