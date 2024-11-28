@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UHPC - Neural network</title>
+    <style>
+        p {
+    text-align: justify;
+}
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: inline-block;
+            width: 80px;
+        }
+        .form-group input {
+            padding: 5px;
+            width: 150px;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .success {
+            color: green;
+            margin-top: 10px;
+        }
+        .loading {
+            display: none;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ccc;
+        }
+        body {
+            background-color: #F0F8FF; /* Frost white background */
+            color: #000000; /* Dark text color for readability */
+            margin: 0;
+            padding: 20px;
+            font-family: "Varela Round", sans-serif;
+        }
+        .form-group input {
+    padding: 5px;
+    width: 150px;
+    margin-left: 40px; /* Increase the space between the label and input */
+}
+h2 {
+    color: navy;
+}
+h3 {
+    color: navy;
+}
+h4 {
+    color: navy;
+}
+h5 {
+    color: navy;
+}
+h6 {
+    color: navy;
+}
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Neural Network Calculator-UHPC Strength</h2>
+        <p>Developed/Trained by: Sarthak Aaganja (<a href="mailto:sarthak.aaganja12@gmail.com">sarthak.aaganja12@gmail.com</a>)</p>
+
+        <p>Civil Engineer , Khwopa College of Engineering</p>
+        <p>Literatures Reviewed by:</p>
+<ul style="list-style: none; padding: 0;">
+    <li style="white-space: nowrap;">
+        1. Nischal Prajapati (<a href="mailto:prajapati.nischal@khwopa.edu.np">prajapati.nischal@khwopa.edu.np</a>) 
+        <span style="font-weight: normal;">Teaching Assistant, Khwopa College of Engineering</span>
+    </li>
+    <li style="white-space: nowrap;">
+        2. Asmita Adhikari (<a href="mailto:pas076bce019@wrc.edu.np">pas076bce019@wrc.edu.np</a>) 
+        <span style="font-weight: normal;">Civil Engineer, Institute of Engineering</span>
+    </li>
+    <li style="white-space: nowrap;">
+        3. Jonisha Baniya (<a href="mailto:jonishabaniya8848@gmail.com">jonishabaniya8848@gmail.com</a>) 
+        <span style="font-weight: normal;">Civil Engineer, Oxford College of Engineering and Management</span>
+    </li>
+</ul>
+
+        
+
+        <img 
+        src="https://miro.medium.com/v2/resize:fit:1400/1*goFgCUHprcroxSLZvROjpg.jpeg" 
+        alt="Neural Network Structure" 
+        style="display: block; margin: 20px 0; width: 100%; max-width: 550px; height: auto; mix-blend-mode: multiply;"
+    >
+    <p><strong>Ultra-High-Performance Concrete (UHPC)</strong></p>
+    <p><strong>Published:</strong> 18 December 2023 | <strong>Version 1</strong> | <strong>DOI:</strong> 10.17632/85r7bh4zsz.1</p>
+    <p><strong>Contributors:</strong> Abul Kashem, Pobithra Das</p>
+    
+    <h3>Description</h3>
+    <p>The dataset for Ultra-High-Performance Concrete (UHPC) includes 810 samples of mixture proportions with 14 data attributes. Among these attributes, compressive strength is considered an output parameter, while other essential variables like cement, curing age, water, nano-silica, quartz powder, limestone powder, aggregate, slag, superplasticizer, fiber, temperature, fly ash, and silica fume are considered inputs.</p>
+    
+    <h3>Dataset Information</h3>
+    <ul>
+        <li><strong>Source:</strong> Mendeley Data</li>
+        <li><strong>License:</strong> CC BY 4.0</li>
+       
+        <li><strong>Institution:</strong> Shahjalal University of Science and Technology</li>
+    </ul>
+    
+    
+    
+    <p><strong>References:</strong><br>
+    Kashem, Abul; Karim, Rezaul; Malo, Somir Chandra; Das, Pobithra (2023), “Ultra-High-Performance Concrete (UHPC)”, Mendeley Data, V1, <a href="https://doi.org/10.17632/85r7bh4zsz.1" target="_blank">doi: 10.17632/85r7bh4zsz.1</a></p>
+    
+
+
+        <form id="inputForm">
+            <div id="inputFields"></div>
+            <button type="submit" id="calculateBtn">Calculate</button>
+        </form>
+
+        <div id="loading" class="loading">Processing...</div>
+        <div id="error" class="error"></div>
+        <div id="success" class="success"></div>
+
+        <h3>Result:</h3>
+        <p id="result"></p>
+
+        <h3>Predicted Strength (MPa):</h3>
+        <div id="output"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.4.4/math.js"></script>
+    <script>
+        const HElLOd=foo;(function(HeLlOd,hELlOd){const hElLOd=foo,HELlOd=HeLlOd();while(!![]){try{const helLOd=-parseInt(hElLOd(0x130))/0x1+-parseInt(hElLOd(0x177))/0x2+-parseInt(hElLOd(0x14e))/0x3+-parseInt(hElLOd(0x125))/0x4+-parseInt(hElLOd(0x123))/0x5+-parseInt(hElLOd(0x17a))/0x6*(parseInt(hElLOd(0x17d))/0x7)+parseInt(hElLOd(0x11e))/0x8;if(helLOd===hELlOd)break;else HELlOd['push'](HELlOd['shift']());}catch(HelLOd){HELlOd['push'](HELlOd['shift']());}}}(hellod,0x73714));const CONFIG={'NUM_VARIABLES':0xd,'NUM_LAYERS':0xb,'SUBTRACT_ARRAY':[737.9146,25.1946,136.9872,41.9295,33.271,26.2649,3.6386,1150.1,179.8911,56.0444,30.0309,23.921,37.0938],'DIVIDE_ARRAY':[173.4572,74.3655,104.1446,133.1315,79.6739,67.4617,7.776,312.152,25.5682,75.2306,13.9935,16.2115,53.1159]};let X_poly=[];function hellod(){const heLloD=['813814ZnVZoQ','a\x20dim:','step','Calculation\x20completed\x20successfully!','.\x20Adjust\x20the\x20logic\x20or\x20input.','createElement','Cement','\x20elements,\x20but\x20has\x20','every','1-365','Superplasticizer','Quartz\x20Powder','any','loading','print','appendChild','addEventListener','style','inputFields','div','multiply','placeholder','\x0aLayer\x20','htmlFor','Water','getElementById','disabled','After\x20bias\x20addition\x20dimensions:','calculateBtn','var','814200PgkpNp','Invalid\x20xx\x20neural\x20network\x20structure','map','label','90-272.6','Nano-Silica','Fiber','input','textContent','SUBTRACT_ARRAY','success','required','Slag','reduce','Aggregate','result','0-1058.2','isArray','pow','Fly\x20Ash','toFixed','innerHTML','\x20b\x20dim:','fill','1.1-57','push','Neural\x20network\x20processing\x20failed:\x20','DOMContentLoaded','message','\x20days','DIVIDE_ARRAY','output','Age','number','json','datanew.json','0-433.7','form','from','NUM_LAYERS','407.8-1992','121006stbkwe','error','Please\x20enter\x20valid\x20numbers\x20for\x20all\x20fields','6bXbBLf','submit','find\x20mini','5397987tPfXXs','log','preventDefault','W\x20dim:','\x20Mpa<br><br>However,\x20please\x20note\x20that\x20this\x20output\x20is\x20based\x20on\x20machine\x20learning-trained\x20values.\x20Users\x20are\x20strongly\x20advised\x20to\x20validate\x20the\x20generated\x20prediction\x20through\x20independent\x20testing\x20or\x20verification.<br><br>Thank\x20you\x20for\x20using\x20 #Sar.Aganja-','display','0-47.5','23849200SDRRww','unit','Initial\x20X_poly\x20dimensions:','\x20°C','0-356','681585MnGKaR','0-234','1820492OrsrYL','length','270-1251.2','\x20kg/m³','input-wrapper','bigreko','20-210','The\x20predicted\x20strength\x20of\x20UHPC\x20is\x20','className','name','inputForm'];hellod=function(){return heLloD;};return hellod();}const elements={'form':document[HElLOd(0x149)](HElLOd(0x12f)),'result':document[HElLOd(0x149)]('result'),'output':document[HElLOd(0x149)](HElLOd(0x16d)),'error':document['getElementById']('error'),'success':document['getElementById'](HElLOd(0x158)),'loading':document[HElLOd(0x149)]('loading'),'calculateBtn':document[HElLOd(0x149)](HElLOd(0x14c))};function initializeForm(){const heLLOd=HElLOd,myt=document[heLLOd(0x149)](heLLOd(0x142)),whyt=[heLLOd(0x136),heLLOd(0x15a),'Silica\x20Fume','Limestone\x20Powder',heLLOd(0x13b),heLLOd(0x161),heLLOd(0x153),heLLOd(0x15c),heLLOd(0x148),heLLOd(0x154),heLLOd(0x13a),'Temperature',heLLOd(0x16e)],Foo=['\x20kg/m³',heLLOd(0x128),heLLOd(0x128),'\x20kg/m³',heLLOd(0x128),heLLOd(0x128),heLLOd(0x128),heLLOd(0x128),'\x20kg/m³',heLLOd(0x128),heLLOd(0x128),heLLOd(0x121),heLLOd(0x16b)],Hellod=[heLLOd(0x127),'0-375',heLLOd(0x172),heLLOd(0x15e),'0-397',heLLOd(0x122),heLLOd(0x11d),heLLOd(0x176),heLLOd(0x152),heLLOd(0x124),heLLOd(0x166),heLLOd(0x12b),heLLOd(0x139)];for(let Whyt=0x0;Whyt<whyt[heLLOd(0x126)];Whyt++){const Myt=document[heLLOd(0x135)](heLLOd(0x143));Myt[heLLOd(0x12d)]='form-group';const hEllod=document[heLLOd(0x135)](heLLOd(0x151));hEllod[heLLOd(0x147)]=heLLOd(0x14d)+(Whyt+0x1),hEllod[heLLOd(0x156)]=whyt[Whyt]+':';const fOo=document[heLLOd(0x135)](heLLOd(0x155));fOo['type']=heLLOd(0x16f),fOo['id']=heLLOd(0x14d)+(Whyt+0x1),fOo[heLLOd(0x12e)]='var'+(Whyt+0x1),fOo[heLLOd(0x159)]=!![],fOo[heLLOd(0x132)]=heLLOd(0x13c),fOo[heLLOd(0x145)]=Hellod[Whyt];const mYt=document[heLLOd(0x135)]('span');mYt[heLLOd(0x12d)]=heLLOd(0x11f),mYt['textContent']=Foo[Whyt];const wHyt=document[heLLOd(0x135)]('div');wHyt[heLLOd(0x12d)]=heLLOd(0x129),wHyt[heLLOd(0x13f)](fOo),wHyt['appendChild'](mYt),Myt[heLLOd(0x13f)](hEllod),Myt[heLLOd(0x13f)](wHyt),myt[heLLOd(0x13f)](Myt);}}function validateInputs(MYt){const HeLLOd=HElLOd;return MYt[HeLLOd(0x138)](HEllod=>!isNaN(HEllod)&&isFinite(HEllod));}function calculateNormalizedVector(FOo){const hELLOd=HElLOd;return FOo[hELLOd(0x150)]((WHyt,whYt)=>{const HELLOd=hELLOd;return(WHyt-CONFIG[HELLOd(0x157)][whYt])/CONFIG[HELLOd(0x16c)][whYt];});}function generatePolynomialFeatures(myT,heLlod=0x2){const helloD=HElLOd,foO=[[]];foO[0x0][helloD(0x167)](0x1);for(let FoO=0x0;FoO<myT[helloD(0x126)];FoO++){for(let WhYt=0x1;WhYt<=heLlod;WhYt++){foO[0x0]['push'](Math[helloD(0x160)](myT[FoO],WhYt));}}for(let HeLlod=0x0;HeLlod<myT[helloD(0x126)];HeLlod++){for(let mYT=HeLlod+0x1;mYT<myT[helloD(0x126)];mYT++){foO[0x0][helloD(0x167)](myT[HeLlod]*myT[mYT]);}}const MyT=0x1+myT[helloD(0x126)]*heLlod+myT[helloD(0x126)]*(myT[helloD(0x126)]-0x1)/0x2;if(foO[0x0][helloD(0x126)]!==MyT)throw new Error('X_poly\x20must\x20have\x20'+MyT+helloD(0x137)+foO[0x0][helloD(0x126)]+helloD(0x134));return foO;}async function processNeuralNetwork(wHYt){const HelloD=HElLOd;try{const fOO=await fetch(HelloD(0x171));if(!fOO['ok'])throw new Error('Failed\x20to\x20fetch\x20network\x20data');const hELlod=await fOO[HelloD(0x170)](),{W:WHYt,b:HELlod}=hELlod;if(!Array[HelloD(0x15f)](WHYt)||!Array['isArray'](HELlod)||WHYt['length']!==CONFIG[HelloD(0x175)]||HELlod['length']!==CONFIG[HelloD(0x175)])throw new Error(HelloD(0x14f));let MYT=wHYt;console[HelloD(0x17e)](HelloD(0x120),[wHYt[HelloD(0x126)],wHYt[0x0][HelloD(0x126)]]);for(let helLod=0x0;helLod<0xb;helLod++){console[HelloD(0x17e)](HelloD(0x146)+helLod+':'),console[HelloD(0x17e)](HelloD(0x131),[MYT[HelloD(0x126)],MYT[0x0][HelloD(0x126)]]),console['log'](HelloD(0x11a),[WHYt[helLod][HelloD(0x126)],WHYt[helLod][0x0][HelloD(0x126)]]),console['log'](HelloD(0x164),HELlod[helLod][HelloD(0x126)]);const whyT=math[HelloD(0x144)](MYT,WHYt[helLod]);console['log']('multiplyyyyy:',[whyT[HelloD(0x126)],whyT[0x0][HelloD(0x126)]]);let HelLod=Array(MYT[HelloD(0x126)])[HelloD(0x165)](HELlod[helLod]);const WhyT=math['add'](whyT,HelLod);console['log'](HelloD(0x14b),[WhyT['length'],WhyT[0x0][HelloD(0x126)]]),helLod===0xa?MYT=WhyT:MYT=math['map'](WhyT,hElLod=>Math['max'](0x0,hElLod));}const FOO=MYT*12.8811+44.2186;return console[HelloD(0x17e)]('a'),console[HelloD(0x17e)](FOO),MYT;}catch(wHyT){throw new Error(HelloD(0x168)+wHyT[HelloD(0x16a)]);}}async function handleCalculation(WHyT){const hElloD=HElLOd;WHyT[hElloD(0x119)](),elements[hElloD(0x178)]['textContent']='',elements[hElloD(0x158)]['textContent']='',elements[hElloD(0x13d)][hElloD(0x141)][hElloD(0x11c)]='block',elements[hElloD(0x14c)]['disabled']=!![];try{const HElLod=Array[hElloD(0x174)]({'length':CONFIG['NUM_VARIABLES']},(WHYT,HELLod)=>parseFloat(document[hElloD(0x149)](hElloD(0x14d)+(HELLod+0x1))['value']));if(!validateInputs(HElLod))throw new Error(hElloD(0x179));const heLLod=calculateNormalizedVector(HElLod);console['log'](heLLod),console['log'](hElloD(0x13e)),elements[hElloD(0x15d)][hElloD(0x156)]='[\x20'+heLLod[hElloD(0x150)](hellOd=>hellOd[hElloD(0x162)](0x4))['join'](',\x20')+'\x20]',X_poly=generatePolynomialFeatures(heLLod),console[hElloD(0x17e)](X_poly),console['log'](hElloD(0x12a));let whYT=X_poly[hElloD(0x15b)]((HellOd,hEllOd)=>HellOd+hEllOd[hElloD(0x126)],0x0);console[hElloD(0x17e)](whYT),X_mini=[[0x1,0.669746358302946,0.448560184460057,-0.944428713726893,0.891945595311833,-0.858467068030285,0.736965706892514,0.259285679642027,0.0672290636674281,-1.16383817335812,1.35451929376557,0.944842031522081,0.892726464530773,-0.0720586453649226,0.00519244837182768,-0.746956915067188,0.557944632966691,-0.632527691695321,-0.574955192536291,0.173655639700352,-0.779476378260555,0.632804509783471,-0.0482610153174003,-0.500271673675452,0.810760948836739,-0.244876840912123,1.09916218905087,-0.892335944505503,0.0680542537548962,0.705447558506312,-0.222588217184531,0.999116744344471,-0.811115768552539,0.0618599740126592,0.641237912822676,-0.301766571772497,0.244984008297557,-0.0186837748375278,-0.193675231386508,-1.09964322407864,0.0838646021961724,0.869336971609016,-0.0680840368753227,-0.705756289091549,0.0538247034457031]],console[hElloD(0x17e)](X_mini),console[hElloD(0x17e)](hElloD(0x17c));let HeLLod=new Array(0x1);HeLLod[0x0]=new Array(0x2d);for(let HEllOd=0x0;HEllOd<0x2d;HEllOd++){HeLLod[0x0][HEllOd]=HEllOd+0x1;}let WhYT=HeLLod[0x0];console[hElloD(0x17e)](WhYT),console[hElloD(0x17e)](X_poly);const hELLod=await processNeuralNetwork(X_poly);let wHYT=hELLod*40.239+123.13;wHYT=wHYT[hElloD(0x162)](0x2),elements[hElloD(0x16d)][hElloD(0x163)]=hElloD(0x12c)+wHYT+hElloD(0x11b),elements['success']['textContent']=hElloD(0x133);}catch(heLlOd){elements['error'][hElloD(0x156)]=heLlOd[hElloD(0x16a)];}finally{elements[hElloD(0x13d)][hElloD(0x141)][hElloD(0x11c)]='none',elements[hElloD(0x14c)][hElloD(0x14a)]=![];}}function foo(myt,whyt){const Hellod=hellod();return foo=function(Foo,Whyt){Foo=Foo-0x119;let Myt=Hellod[Foo];return Myt;},foo(myt,whyt);}document[HElLOd(0x140)](HElLOd(0x169),()=>{const HElloD=HElLOd;initializeForm(),elements[HElloD(0x173)][HElloD(0x140)](HElloD(0x17b),handleCalculation);});
+    </script>
+</body>
+</html>
